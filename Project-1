@@ -1,0 +1,77 @@
+#include <algorithm>
+#include <iostream>
+#include <iomanip>
+#include <ctime>
+#include <chrono>
+using namespace std;
+void robust();
+struct Matrix;
+
+struct Matrix {
+	int row;
+	int col;
+	float data[10][10];
+}matA, matB, matC;
+
+void  robust(void) {
+	cin.clear();
+	cin.ignore();
+	cout << "Worng input,please try again" << endl;
+}
+
+int main() {
+	const auto start = std::chrono::steady_clock::now();
+	int m, n, p;
+	cout << "Now there is three matrices ,matrixA,matrixB,matrixC\n" << endl;
+	cout << "matrixA has m columns,n rows and matrixB has n columns and p rows\n" << endl;
+	cout << "now please input the number of m,n,p" << endl;
+	cout << "m=";
+	while (!(cin >> m))
+		robust();
+	matA.col = m;
+	cout << "n=";
+	while (!(cin >> n))
+		robust();
+	matA.row = n;
+	matB.col = n;
+	cout << "p=";
+	while (!(cin >> p))
+		robust();
+	matB.row = p;
+	cout << "Please input the data of matrixA:";
+	for (int i = 1; i <= matA.col; i++) {
+		for (int j = 1; j <= matA.row; j++)
+			while (!(cin >> matA.data[i][j]))
+				robust();
+	}
+	cout << "Please input the data of matrixB:";
+	for (int i = 1; i <= matB.col; i++) {
+		for (int j = 1; j <= matB.row; j++)
+			while (!(cin >> matB.data[i][j]))
+				robust();
+	}
+	for (int i = 1; i <= matA.col; i++) {
+		for (int j = 1; j <= matB.row; j++) {
+			for (int k = 1; k <= n; k++)
+				matC.data[i][j] = matA.data[i][k] * matB.data[k][j];
+		}
+	}
+	cout << "This is matrixC:" << endl;
+	for (int i = 1; i <= m; i++)
+		for (int j = 1; j <= p + 1; j++) {
+			if (j == (p + 1))
+				cout << '\n';
+			else
+				cout << matC.data[i][j] << " ";
+
+		}
+	const auto end = std::chrono::steady_clock::now();
+	std::cout
+		<< "calculations took "
+		<< std::chrono::duration_cast<std::chrono::microseconds>(end - start).count()
+		<< "microseconds ≈ "
+		<< (end - start) / 1ms << "ms ≈ " // almost equivalent form of the above, but
+		<< (end - start) / 1s << "s.\n";
+	return 0;
+}
+
